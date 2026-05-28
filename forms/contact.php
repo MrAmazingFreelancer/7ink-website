@@ -15,6 +15,7 @@
     die( 'Unable to load the "PHP Email Form" Library!');
   }
 
+  /** @var PHP_Email_Form $contact */
   $contact = new PHP_Email_Form;
   $contact->ajax = true;
   
