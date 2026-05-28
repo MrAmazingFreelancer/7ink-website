@@ -50,10 +50,18 @@
   });
 
   function php_email_form_submit(thisForm, action, formData) {
+    const encodedData = new URLSearchParams();
+    formData.forEach((value, key) => {
+      encodedData.append(key, value);
+    });
+
     fetch(action, {
       method: 'POST',
-      body: formData,
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
+      body: encodedData,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
     })
     .then(response => {
       if( response.ok ) {
