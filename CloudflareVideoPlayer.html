@@ -197,6 +197,69 @@
       padding: 0.75rem;
     }
 
+    .uploader {
+      margin-top: 0.75rem;
+      border: 1px solid var(--theme-line-strong);
+      background: rgba(10, 10, 14, 0.8);
+      padding: 0.85rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .uploader-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .uploader input[type="file"],
+    .uploader input[type="text"] {
+      flex: 1;
+      min-width: 220px;
+      background: #0a0a0f;
+      border: 1px solid var(--theme-line-strong);
+      color: var(--theme-ink);
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      padding: 0.45rem 0.65rem;
+      outline: none;
+    }
+
+    .uploader input[type="text"]:focus {
+      border-color: var(--theme-accent);
+    }
+
+    .upload-meta {
+      font-size: 0.68rem;
+      color: var(--theme-muted);
+      line-height: 1.4;
+    }
+
+    #upload-progress {
+      width: 100%;
+      height: 10px;
+      accent-color: var(--theme-accent);
+    }
+
+    #upload-status {
+      font-size: 0.7rem;
+      color: var(--theme-muted);
+      min-height: 1rem;
+    }
+
+    .upload-results {
+      font-size: 0.7rem;
+      line-height: 1.6;
+      color: var(--theme-muted);
+      word-break: break-all;
+    }
+
+    .upload-results a {
+      color: var(--theme-accent);
+      text-decoration: underline;
+    }
+
     .stats-bar {
       padding: 0.6rem 1.25rem;
       background: rgba(6, 6, 10, 0.97);
@@ -268,6 +331,21 @@
         <div class="helper-text">
           Signed URL mode is enabled on this input. Use a fully signed playback URL when needed.
           You can also pass <strong>?src=YOUR_ENCODED_URL</strong> to auto-load a source.
+        </div>
+
+        <div class="uploader">
+          <div class="src-label">Direct Creator Upload (Cloudflare Stream)</div>
+
+          <div class="uploader-row">
+            <input type="file" id="upload-file" accept="video/*" />
+            <input type="text" id="upload-title" placeholder="Optional video title" />
+            <button class="btn" id="upload-btn" onclick="startDirectUpload()">Upload Video</button>
+          </div>
+
+          <div class="upload-meta">For large files or unstable connections, use Cloudflare tus resumable uploads. This form uses direct one-time POST upload.</div>
+          <progress id="upload-progress" value="0" max="100"></progress>
+          <div id="upload-status">No upload started.</div>
+          <div id="upload-results" class="upload-results"></div>
         </div>
       </div>
 
@@ -360,6 +438,123 @@
     function loadDefault() {
       document.getElementById('stream-url').value = DEFAULT_STREAM_URL;
       loadUrl(DEFAULT_STREAM_URL);
+    }
+
+    function setUploadStatus(text) {
+      document.getElementById('upload-status').textContent = text;
+    }
+
+    function setUploadProgress(percent) {
+      document.getElementById('upload-progress').value = Math.max(0, Math.min(100, percent));
+    }
+
+    function renderUploadLinks(uid) {
+      var hlsUrl = 'https://videodelivery.net/' + uid + '/manifest/video.m3u8';
+      var iframeUrl = 'https://iframe.videodelivery.net/' + uid;
+      var dashUrl = 'https://videodelivery.net/' + uid + '/manifest/video.mpd';
+
+      document.getElementById('upload-results').innerHTML =
+        'UID: <strong>' + uid + '</strong><br>' +
+        'HLS: <a href="' + hlsUrl + '" target="_blank" rel="noopener noreferrer">' + hlsUrl + '</a><br>' +
+        'DASH: <a href="' + dashUrl + '" target="_blank" rel="noopener noreferrer">' + dashUrl + '</a><br>' +
+        'Embed: <a href="' + iframeUrl + '" target="_blank" rel="noopener noreferrer">' + iframeUrl + '</a>';
+
+      document.getElementById('stream-url').value = hlsUrl;
+      loadUrl(hlsUrl);
+    }
+
+    async function createOneTimeUploadUrl(file, title) {
+      var response = await fetch('/api/stream-upload-url', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          filename: file.name,
+          title: title || '',
+          maxDurationSeconds: 7200
+        })
+      });
+
+      var payload = await response.json();
+      if (!response.ok || !payload || !payload.uploadURL || !payload.uid) {
+        throw new Error((payload && payload.error) || 'Could not create upload URL');
+      }
+
+      return payload;
+    }
+
+    function uploadVideoFile(uploadURL, file) {
+      return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest();
+        var formData = new FormData();
+        formData.append('file', file);
+
+        xhr.open('POST', uploadURL);
+
+        xhr.upload.onprogress = function (event) {
+          if (!event.lengthComputable) {
+            return;
+          }
+          var percent = Math.round((event.loaded / event.total) * 100);
+          setUploadProgress(percent);
+          setUploadStatus('Uploading... ' + percent + '%');
+        };
+
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve();
+            return;
+          }
+          reject(new Error('Upload failed with status ' + xhr.status));
+        };
+
+        xhr.onerror = function () {
+          reject(new Error('Network error during upload'));
+        };
+
+        xhr.send(formData);
+      });
+    }
+
+    async function startDirectUpload() {
+      var fileInput = document.getElementById('upload-file');
+      var titleInput = document.getElementById('upload-title');
+      var uploadBtn = document.getElementById('upload-btn');
+      var file = fileInput.files && fileInput.files[0];
+
+      if (!file) {
+        setUploadStatus('Select a video file first.');
+        return;
+      }
+
+      var maxBasicUploadSizeBytes = 200 * 1024 * 1024;
+      if (file.size > maxBasicUploadSizeBytes) {
+        setUploadStatus('File is over 200MB. Use tus resumable upload flow for large files.');
+        return;
+      }
+
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = 'Uploading...';
+      setUploadProgress(0);
+      document.getElementById('upload-results').innerHTML = '';
+
+      try {
+        setUploadStatus('Creating secure one-time upload URL...');
+        var uploadData = await createOneTimeUploadUrl(file, titleInput.value.trim());
+
+        setUploadStatus('One-time URL ready. Sending file to Cloudflare...');
+        await uploadVideoFile(uploadData.uploadURL, file);
+
+        setUploadProgress(100);
+        setUploadStatus('Upload completed. Cloudflare is processing the video.');
+        renderUploadLinks(uploadData.uid);
+      } catch (error) {
+        setUploadStatus('Upload error: ' + error.message);
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = 'Upload Video';
+      }
     }
 
     player.on('playing', function () { setStatus('playing'); });

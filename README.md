@@ -46,3 +46,12 @@ git push origin main
 ```
 
 Vercel will automatically detect changes and deploy.
+
+## Cloudflare Stream Direct Upload Setup
+
+To enable direct creator uploads from `CloudflareVideoPlayer.html`, add these Vercel Environment Variables:
+
+- `CLOUDFLARE_ACCOUNT_ID` - Your Cloudflare account ID.
+- `CLOUDFLARE_STREAM_API_TOKEN` - API token with Stream write permissions.
+
+After adding environment variables, redeploy the project so `/api/stream-upload-url` can issue one-time upload URLs securely.
