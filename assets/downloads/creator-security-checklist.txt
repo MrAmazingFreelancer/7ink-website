@@ -1,0 +1,9 @@
+White Knight - Creator Security Checklist
+
+1. Enable strong passwords and unique credentials.
+2. Turn on 2FA for all creator and payment accounts.
+3. Use watermarking on premium content.
+4. Monitor mirror/leak sites weekly.
+5. Keep legal takedown templates ready.
+6. Separate public and private contact identities.
+7. Backup original content in secure storage.
