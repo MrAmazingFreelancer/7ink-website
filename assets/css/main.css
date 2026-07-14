@@ -647,7 +647,7 @@ h6 {
   visibility: hidden;
   opacity: 0;
   right: 15px;
-  bottom: 15px;
+  bottom: 88px;
   z-index: 99999;
   background-color: var(--accent-color);
   width: 40px;
@@ -678,6 +678,13 @@ h6 {
 @media screen and (max-width: 768px) {
   [data-aos-delay] {
     transition-delay: 0 !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .scroll-top {
+    bottom: 82px;
+    right: 14px;
   }
 }
 
