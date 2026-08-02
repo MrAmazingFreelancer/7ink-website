@@ -15,7 +15,7 @@ const copyDirectories = [
   "stylesheets"
 ];
 
-const copyFiles = ["vercel.json"];
+const copyFiles = ["vercel.json", "speed-insights-init.js"];
 
 function cleanOutputDirectory() {
   rmSync(outDir, { recursive: true, force: true });
