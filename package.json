@@ -7,12 +7,17 @@
     "dev": "echo \"Use local XAMPP Apache for development\"",
     "start": "echo \"Static deployment on Vercel\"",
     "deploy": "npm run build && npx wrangler deploy --config wrangler.jsonc",
-    "deploy:dry-run": "npm run build && npx wrangler deploy --config wrangler.jsonc --dry-run"
+    "deploy:dry-run": "npm run build && npx wrangler deploy --config wrangler.jsonc --dry-run",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "7ink",
     "website"
   ],
   "author": "7ink",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3"
+  }
 }

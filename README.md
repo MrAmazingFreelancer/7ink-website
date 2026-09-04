@@ -20,6 +20,7 @@ See [QUICK_SETUP.md](QUICK_SETUP.md) for deployment instructions.
 - `.gitignore` - Git ignore rules
 - `DEPLOYMENT_GUIDE.md` - Complete setup guide
 - `QUICK_SETUP.md` - Quick reference guide
+- `CODEX_CONNECTOR.md` - ChatGPT Codex Connector setup guide
 
 ## Development
 
@@ -55,3 +56,7 @@ To enable direct creator uploads from `CloudflareVideoPlayer.html`, add these Ve
 - `CLOUDFLARE_STREAM_API_TOKEN` - API token with Stream write permissions.
 
 After adding environment variables, redeploy the project so `/api/stream-upload-url` can issue one-time upload URLs securely.
+
+## ChatGPT Codex Connector
+
+This repo includes a TypeScript MCP endpoint (`api/codex-connector.ts`) that lets ChatGPT/Codex connect to 7ink.com.au as a custom connector to search and fetch site content. See [CODEX_CONNECTOR.md](CODEX_CONNECTOR.md) for installation and setup instructions.

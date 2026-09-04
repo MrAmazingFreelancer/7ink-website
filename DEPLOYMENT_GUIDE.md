@@ -324,3 +324,10 @@ nslookup www.7ink.com.au
 - [Vercel Documentation](https://vercel.com/docs)
 - [GitHub Documentation](https://docs.github.com)
 - Support: support@7ink.com.au
+
+---
+
+## Optional: ChatGPT Codex Connector
+
+The `api/codex-connector.ts` function exposes an MCP endpoint so ChatGPT/Codex can be connected to this site as a custom connector, without any changes to the Vercel deployment above. See [CODEX_CONNECTOR.md](CODEX_CONNECTOR.md) for setup steps.
+
