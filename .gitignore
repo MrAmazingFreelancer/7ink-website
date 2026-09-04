@@ -12,4 +12,7 @@ public/
 out/
 build/
 dist/
+.impeccable/
+White knights.html
+White knights_files/
 .env*
