@@ -25,13 +25,6 @@ interface CodexResponse extends ServerResponse {
 
 type JsonRpcId = string | number | null;
 
-interface JsonRpcRequest {
-  jsonrpc: '2.0';
-  id?: JsonRpcId;
-  method: string;
-  params?: Record<string, unknown>;
-}
-
 const PROTOCOL_VERSION = '2025-06-18';
 
 const TOOL_DEFINITIONS = [
@@ -60,11 +53,16 @@ const TOOL_DEFINITIONS = [
 ];
 
 function textResult(payload: unknown) {
+  const text = JSON.stringify(payload);
+  if (text === undefined) {
+    throw new Error('Tool result is not JSON serializable.');
+  }
+
   return {
     content: [
       {
         type: 'text',
-        text: JSON.stringify(payload)
+        text
       }
     ]
   };
@@ -78,19 +76,33 @@ function isAuthorized(req: CodexRequest): boolean {
     return true;
   }
 
-  const header = req.headers.authorization || '';
-  const [scheme, token] = header.split(' ');
-  return scheme === 'Bearer' && token === requiredToken;
+  const header = typeof req.headers.authorization === 'string' ? req.headers.authorization : '';
+  const match = /^Bearer\s+(\S+)$/i.exec(header.trim());
+  return match?.[1] === requiredToken;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isValidJsonRpcId(value: unknown): value is JsonRpcId {
+  return value === null || typeof value === 'string' || (typeof value === 'number' && Number.isFinite(value));
 }
 
 function handleToolCall(name: string, args: Record<string, unknown>) {
   if (name === 'search') {
-    const query = typeof args.query === 'string' ? args.query : '';
+    if (typeof args.query !== 'string') {
+      throw new TypeError('Invalid params: "query" must be a string.');
+    }
+    const query = args.query;
     return textResult({ results: searchContent(query) });
   }
 
   if (name === 'fetch') {
-    const id = typeof args.id === 'string' ? args.id : '';
+    if (typeof args.id !== 'string') {
+      throw new TypeError('Invalid params: "id" must be a string.');
+    }
+    const id = args.id;
     const document = fetchContent(id);
     if (!document) {
       throw new Error(`No document found for id "${id}"`);
@@ -98,14 +110,22 @@ function handleToolCall(name: string, args: Record<string, unknown>) {
     return textResult(document);
   }
 
-  throw new Error(`Unknown tool "${name}"`);
+  throw new TypeError(`Unknown tool "${name}"`);
 }
 
 function sendJsonRpcResult(res: CodexResponse, id: JsonRpcId | undefined, result: unknown) {
+  if (id === undefined) {
+    res.status(202).send('');
+    return;
+  }
   res.status(200).json({ jsonrpc: '2.0', id: id ?? null, result });
 }
 
 function sendJsonRpcError(res: CodexResponse, id: JsonRpcId | undefined, code: number, message: string) {
+  if (id === undefined) {
+    res.status(202).send('');
+    return;
+  }
   res.status(200).json({ jsonrpc: '2.0', id: id ?? null, error: { code, message } });
 }
 
@@ -129,14 +149,28 @@ export default async function handler(req: CodexRequest, res: CodexResponse): Pr
     return;
   }
 
-  const message = req.body as JsonRpcRequest | undefined;
-
-  if (!message || typeof message !== 'object' || message.jsonrpc !== '2.0' || typeof message.method !== 'string') {
-    res.status(400).json({ error: 'Expected a JSON-RPC 2.0 request body.' });
+  if (!isRecord(req.body)) {
+    sendJsonRpcError(res, null, -32600, 'Invalid Request: expected a JSON-RPC 2.0 object.');
     return;
   }
 
-  const { id, method, params } = message;
+  const message = req.body;
+  if (message.jsonrpc !== '2.0' || typeof message.method !== 'string') {
+    sendJsonRpcError(res, null, -32600, 'Invalid Request: expected a JSON-RPC 2.0 method.');
+    return;
+  }
+
+  let id: JsonRpcId | undefined;
+  if (Object.prototype.hasOwnProperty.call(message, 'id')) {
+    if (!isValidJsonRpcId(message.id)) {
+      sendJsonRpcError(res, null, -32600, 'Invalid Request: "id" must be a string, number, null, or omitted.');
+      return;
+    }
+    id = message.id;
+  }
+
+  const method = message.method;
+  const params = message.params;
   const isNotification = id === undefined;
 
   try {
@@ -167,14 +201,21 @@ export default async function handler(req: CodexRequest, res: CodexResponse): Pr
       }
 
       case 'tools/call': {
-        const toolName = params && typeof params.name === 'string' ? params.name : '';
-        const rawArgs = params ? params.arguments : undefined;
-        if (rawArgs !== undefined && (typeof rawArgs !== 'object' || rawArgs === null || Array.isArray(rawArgs))) {
+        if (!isRecord(params)) {
+          sendJsonRpcError(res, id, -32602, 'Invalid params: expected an object.');
+          return;
+        }
+        if (typeof params.name !== 'string') {
+          sendJsonRpcError(res, id, -32602, 'Invalid params: "name" must be a string.');
+          return;
+        }
+        const rawArgs = params.arguments;
+        if (rawArgs !== undefined && !isRecord(rawArgs)) {
           sendJsonRpcError(res, id, -32602, 'Invalid params: "arguments" must be an object.');
           return;
         }
-        const toolArgs = (rawArgs as Record<string, unknown>) || {};
-        const result = handleToolCall(toolName, toolArgs);
+        const toolArgs = rawArgs ?? {};
+        const result = handleToolCall(params.name, toolArgs);
         sendJsonRpcResult(res, id, result);
         return;
       }
@@ -194,6 +235,7 @@ export default async function handler(req: CodexRequest, res: CodexResponse): Pr
       return;
     }
     const messageText = error instanceof Error ? error.message : 'Unexpected error';
-    sendJsonRpcError(res, id, -32000, messageText);
+    const code = error instanceof TypeError ? -32602 : -32000;
+    sendJsonRpcError(res, id, code, messageText);
   }
 }
