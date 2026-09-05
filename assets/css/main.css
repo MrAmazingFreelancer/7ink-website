@@ -778,6 +778,12 @@ section,
   z-index: 3;
 }
 
+.hero .hero-knight-icon {
+  width: 150px;
+  height: auto;
+  max-width: 42vw;
+}
+
 .hero h2 {
   margin: 0;
   font-size: 48px;
