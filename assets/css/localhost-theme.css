@@ -44,6 +44,10 @@ p,
   color: var(--wk-muted);
 }
 
+.faq {
+  --heading-color: var(--wk-ink);
+}
+
 .hero p,
 .dark-background p,
 .footer p {
