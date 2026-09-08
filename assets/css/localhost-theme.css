@@ -44,6 +44,10 @@ p,
   color: var(--wk-muted);
 }
 
+.about .content h3 {
+  color: var(--wk-ink);
+}
+
 .faq {
   --heading-color: var(--wk-ink);
 }
