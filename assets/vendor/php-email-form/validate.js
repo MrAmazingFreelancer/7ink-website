@@ -67,7 +67,7 @@
       if( response.ok ) {
         return response.text();
       } else {
-        return response.text().then(message => { throw new Error(message || "Unable to submit. Please try again later."); }); 
+        return response.text().then(message => { throw new Error(message || "Unable to submit. Please try again later."); });
       }
     })
     .then(data => {
