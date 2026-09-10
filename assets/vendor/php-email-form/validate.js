@@ -67,7 +67,7 @@
       if( response.ok ) {
         return response.text();
       } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
+        return response.text().then(message => { throw new Error(message || "Unable to submit. Please try again later."); }); 
       }
     })
     .then(data => {
@@ -86,7 +86,7 @@
 
   function displayError(thisForm, error) {
     thisForm.querySelector('.loading').classList.remove('d-block');
-    thisForm.querySelector('.error-message').innerHTML = error;
+    thisForm.querySelector('.error-message').textContent = error;
     thisForm.querySelector('.error-message').classList.add('d-block');
   }
 
