@@ -1,6 +1,10 @@
 # 7ink.com.au Website
 
-Website deployment for 7ink.com.au using Vercel + Cloudflare
+Website source and Vercel deployment for 7ink.com.au.
+
+Vercel hosts and deploys this website. DNS is managed separately with the domain's current provider.
+The static site is served from the repository root, as configured in `vercel.json`.
+`npm run build` does not generate or copy assets. Deploy through the existing Vercel Git integration.
 
 ## Quick Start
 
@@ -9,7 +13,7 @@ See [QUICK_SETUP.md](QUICK_SETUP.md) for deployment instructions.
 ## Setup
 
 - **Domain**: Crazy Domains (7ink.com.au)
-- **DNS**: Cloudflare
+- **DNS**: Current domain DNS provider; use the records shown by Vercel
 - **Deployment**: Vercel
 - **Repository**: GitHub
 
@@ -24,9 +28,9 @@ See [QUICK_SETUP.md](QUICK_SETUP.md) for deployment instructions.
 
 ## Development
 
-Work on files locally in the xampp repo:
+Work on files in this website repository:
 ```bash
-d:\xampp\htdocs\7ink.local
+D:\MyProjects-Dashboard\7Ink\7Ink-Website
 ```
 
 When ready to deploy, push to this repo for Vercel auto-deployment.
@@ -34,7 +38,7 @@ When ready to deploy, push to this repo for Vercel auto-deployment.
 ## Local Development
 
 ```bash
-cd d:\xampp\htdocs\7ink.local
+cd D:\MyProjects-Dashboard\7Ink\7Ink-Website
 # Edit files
 # Test locally
 ```

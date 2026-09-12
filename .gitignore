@@ -5,6 +5,7 @@ npm-debug.log*
 .env
 .env.local
 .vercel
+# Legacy generated folders: never publish or commit if restored from old backups.
 .wrangler/
 .cf-assets/
 public/

@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "7ink.com.au - Knight Theme Website",
   "scripts": {
-    "build": "node scripts/prepare-cloudflare-assets.mjs",
+    "build": "echo Static website ready for Vercel - no asset-copy build required",
     "dev": "echo \"Use local XAMPP Apache for development\"",
     "start": "echo \"Static deployment on Vercel\"",
-    "deploy": "npm run build && npx wrangler deploy --config wrangler.jsonc",
-    "deploy:dry-run": "npm run build && npx wrangler deploy --config wrangler.jsonc --dry-run",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [
