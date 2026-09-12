@@ -3,6 +3,51 @@
   "outputDirectory": ".",
   "redirects": [
     {
+      "source": "/login",
+      "destination": "https://7ink-dashboard.vercel.app/login",
+      "permanent": false
+    },
+    {
+      "source": "/register",
+      "destination": "https://7ink-dashboard.vercel.app/register",
+      "permanent": false
+    },
+    {
+      "source": "/recover",
+      "destination": "https://7ink-dashboard.vercel.app/recover",
+      "permanent": false
+    },
+    {
+      "source": "/account/:path*",
+      "destination": "https://7ink-dashboard.vercel.app/account/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/account",
+      "destination": "https://7ink-dashboard.vercel.app/account",
+      "permanent": false
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "https://7ink-dashboard.vercel.app/admin/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/admin",
+      "destination": "https://7ink-dashboard.vercel.app/admin",
+      "permanent": false
+    },
+    {
+      "source": "/protection/:path*",
+      "destination": "https://7ink-dashboard.vercel.app/protection/:path*",
+      "permanent": false
+    },
+    {
+      "source": "/protection",
+      "destination": "https://7ink-dashboard.vercel.app/protection",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
       "has": [
         {
