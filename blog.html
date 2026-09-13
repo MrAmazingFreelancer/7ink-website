@@ -110,24 +110,7 @@
           <h2>Creator Protection Blog</h2>
           <p>Browse practical 7Ink guides for DMCA takedowns, leak removal, platform reports, privacy cleanup, and creator safety.</p>
         </div>
-        <div class="blog-filters" data-aos="fade-up" data-aos-delay="100">
-          <div class="filter-inner">
-              <button class="filter-btn active" type="button" data-blog-filter="all" onclick="filterBlogCards('all')">All <span class="filter-count">57</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="dmca-and-takedowns" onclick="filterBlogCards('dmca-and-takedowns')">DMCA &amp; Takedowns <span class="filter-count">25</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="leak-prevention" onclick="filterBlogCards('leak-prevention')">Leak Prevention <span class="filter-count">15</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="platform-guides" onclick="filterBlogCards('platform-guides')">Platform Guides <span class="filter-count">12</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="privacy-and-anonymity" onclick="filterBlogCards('privacy-and-anonymity')">Privacy &amp; Anonymity <span class="filter-count">9</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="copyright-and-legal" onclick="filterBlogCards('copyright-and-legal')">Copyright &amp; Legal <span class="filter-count">8</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="creator-business" onclick="filterBlogCards('creator-business')">Creator Business <span class="filter-count">4</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="content-protection" onclick="filterBlogCards('content-protection')">Content Protection <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="dark-web-and-monitoring" onclick="filterBlogCards('dark-web-and-monitoring')">Dark Web &amp; Monitoring <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="industry-news" onclick="filterBlogCards('industry-news')">Industry News <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="impersonation-and-identity-theft" onclick="filterBlogCards('impersonation-and-identity-theft')">Impersonation &amp; Identity Theft <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="takedowns" onclick="filterBlogCards('takedowns')">Takedowns <span class="filter-count">1</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="creator-tips" onclick="filterBlogCards('creator-tips')">Creator Tips <span class="filter-count">1</span></button>
-          </div>
-        </div>
-        <div class="resource-grid" id="blog-page-grid" data-aos="fade-up" data-aos-delay="150">
+        <div class="resource-grid" id="blog-page-grid" data-aos="fade-up" data-aos-delay="100">
             <article class="resource-card" data-blog-filter-item data-categories="platform-guides takedowns">
               <a href="blog-how-to-remove-leaked-content-from-twitter-x-and-google-2026.html" class="resource-card-link">
                 <div class="resource-card-image"><img src="assets/img/blog-posts/700x420-content-theft-prevention-and-dmca-removal-service.webp" alt="Removing leaked creator content from Twitter/X and Google Search" loading="lazy"></div>
@@ -700,6 +683,9 @@
               </a>
             </article>
         </div>
+        <nav class="blog-pagination blog-page-pagination" aria-label="Blog pages" data-aos="fade-up" data-aos-delay="150">
+          <ul id="blog-pagination-list"></ul>
+        </nav>
       </div>
 
     </section><!-- /Blog Posts Section -->
@@ -803,31 +789,63 @@
   <script src="assets/js/main.js"></script>
   <script src="assets/js/auth-download-gate.js"></script>
   <script src="assets/js/chat-widget.js"></script>
-
   <script>
-    function filterBlogCards(selected) {
-      var filters = document.querySelectorAll('[data-blog-filter]');
-      var cards = document.querySelectorAll('[data-blog-filter-item]');
-      var grid = document.getElementById('blog-page-grid');
-
-      filters.forEach(function (button) {
-        button.classList.toggle('active', button.getAttribute('data-blog-filter') === selected);
-      });
-
-      cards.forEach(function (card) {
-        var categories = card.getAttribute('data-categories') || '';
-        card.hidden = selected !== 'all' && !categories.split(' ').includes(selected);
-      });
-
-      if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
-      document.querySelectorAll('[data-blog-filter]').forEach(function (filter) {
-        filter.addEventListener('click', function () {
-          filterBlogCards(filter.getAttribute('data-blog-filter'));
+      var cards = Array.from(document.querySelectorAll('[data-blog-filter-item]'));
+      var paginationList = document.getElementById('blog-pagination-list');
+      var grid = document.getElementById('blog-page-grid');
+      var postsPerPage = 6;
+      var totalPages = Math.ceil(cards.length / postsPerPage);
+      var currentPage = 1;
+
+      function renderPagination() {
+        if (!paginationList) return;
+        paginationList.innerHTML = '';
+
+        function addButton(label, page, isActive, isDisabled, ariaLabel) {
+          var li = document.createElement('li');
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.textContent = label;
+          button.setAttribute('aria-label', ariaLabel || ('Go to blog page ' + page));
+          if (isActive) {
+            button.classList.add('active');
+            button.setAttribute('aria-current', 'page');
+          }
+          if (isDisabled) {
+            button.classList.add('disabled');
+            button.disabled = true;
+          }
+          button.addEventListener('click', function () {
+            showPage(page, true);
+          });
+          li.appendChild(button);
+          paginationList.appendChild(li);
+        }
+
+        addButton('‹', Math.max(1, currentPage - 1), false, currentPage === 1, 'Previous blog page');
+        for (var page = 1; page <= totalPages; page += 1) {
+          addButton(String(page), page, page === currentPage, false);
+        }
+        addButton('›', Math.min(totalPages, currentPage + 1), false, currentPage === totalPages, 'Next blog page');
+      }
+
+      function showPage(page, shouldScroll) {
+        currentPage = Math.min(Math.max(page, 1), totalPages || 1);
+        var start = (currentPage - 1) * postsPerPage;
+        var end = start + postsPerPage;
+
+        cards.forEach(function (card, index) {
+          card.hidden = index < start || index >= end;
         });
-      });
+
+        renderPagination();
+        if (shouldScroll && grid) {
+          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      showPage(1, false);
     });
   </script>
 
