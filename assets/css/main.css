@@ -868,7 +868,18 @@ section,
   height: auto;
 }
 
+.clients .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .clients .swiper-slide img {
+  max-height: 86px;
+  width: auto;
+  max-width: 210px;
+  object-fit: contain;
+  background: transparent;
   transition: 0.3s;
 }
 
