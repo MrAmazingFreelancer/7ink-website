@@ -143,6 +143,31 @@
       "permanent": false
     },
     {
+      "source": "/blog.html",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/blog-details.html",
+      "destination": "/blog/posts/how-to-remove-leaked-content-from-twitter-x-and-google-2026/",
+      "permanent": true
+    },
+    {
+      "source": "/blog-:slug.html",
+      "destination": "/blog/posts/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/blog/posts/:slug/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug/",
+      "destination": "/blog/posts/:slug/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
