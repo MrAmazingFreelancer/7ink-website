@@ -2942,22 +2942,43 @@ section,
 .blog-page-pagination {
   display: flex;
   justify-content: center;
-  margin-top: 42px;
+  margin-top: 46px;
 }
 
 .blog-page-pagination ul {
+  align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 78%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface-color), transparent 8%);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22);
 }
 
-.blog-page-pagination button {
-  cursor: pointer;
-  font: 700 0.95rem var(--nav-font);
+.blog-page-pagination li {
+  margin: 0;
 }
 
-.blog-page-pagination button:disabled {
-  cursor: default;
+.blog-page-pagination a {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border-color: color-mix(in srgb, var(--accent-color), transparent 48%);
+  background: rgba(255, 255, 255, 0.03);
+  color: color-mix(in srgb, var(--default-color), transparent 10%);
+  font: 800 0.96rem var(--nav-font);
+  text-decoration: none;
+  transition: 0.22s ease;
+}
+
+.blog-page-pagination a.active,
+.blog-page-pagination a:hover {
+  border-color: var(--accent-color);
+  background: var(--accent-color);
+  color: var(--contrast-color);
+  transform: translateY(-1px);
 }
 
 .blog-page-library .resource-grid {

@@ -802,32 +802,27 @@
         if (!paginationList) return;
         paginationList.innerHTML = '';
 
-        function addButton(label, page, isActive, isDisabled, ariaLabel) {
+        function addPageNumber(page) {
           var li = document.createElement('li');
-          var button = document.createElement('button');
-          button.type = 'button';
-          button.textContent = label;
-          button.setAttribute('aria-label', ariaLabel || ('Go to blog page ' + page));
-          if (isActive) {
-            button.classList.add('active');
-            button.setAttribute('aria-current', 'page');
+          var link = document.createElement('a');
+          link.href = '#blog-posts';
+          link.textContent = page;
+          link.setAttribute('aria-label', 'Go to blog page ' + page);
+          if (page === currentPage) {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
           }
-          if (isDisabled) {
-            button.classList.add('disabled');
-            button.disabled = true;
-          }
-          button.addEventListener('click', function () {
+          link.addEventListener('click', function (event) {
+            event.preventDefault();
             showPage(page, true);
           });
-          li.appendChild(button);
+          li.appendChild(link);
           paginationList.appendChild(li);
         }
 
-        addButton('‹', Math.max(1, currentPage - 1), false, currentPage === 1, 'Previous blog page');
         for (var page = 1; page <= totalPages; page += 1) {
-          addButton(String(page), page, page === currentPage, false);
+          addPageNumber(page);
         }
-        addButton('›', Math.min(totalPages, currentPage + 1), false, currentPage === totalPages, 'Next blog page');
       }
 
       function showPage(page, shouldScroll) {
