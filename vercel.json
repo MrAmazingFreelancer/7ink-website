@@ -23,6 +23,96 @@
       "permanent": false
     },
     {
+      "source": "/7Inkwhiteknightprotectionaccountdashborad",
+      "destination": "https://7ink-dashboard.vercel.app/7Inkwhiteknightprotectionaccountdashborad",
+      "permanent": false
+    },
+    {
+      "source": "/7Inkwhiteknightprotectionaccountdashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7Inkwhiteknightprotectionaccountdashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-account-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-account-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-analytics-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-analytics-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-notifications-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-notifications-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-content-assets-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-content-assets-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-scanning-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-scanning-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-monitoring-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-monitoring-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-takedowns-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-takedowns-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-social-profiles-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-social-profiles-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-creator-profiles-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-creator-profiles-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-model-names-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-model-names-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-settings-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-settings-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-plan-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-plan-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-feedback-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-feedback-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-live-chat-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-live-chat-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-admin-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-admin-dashboard",
+      "permanent": false
+    },
+    {
+      "source": "/7ink-white-knight-protection-invite-member-dashboard",
+      "destination": "https://7ink-dashboard.vercel.app/7ink-white-knight-protection-invite-member-dashboard",
+      "permanent": false
+    },
+    {
       "source": "/account/:path*",
       "destination": "https://7ink-dashboard.vercel.app/account/:path*",
       "permanent": false
