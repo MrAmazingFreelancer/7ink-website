@@ -215,9 +215,6 @@ h6 {
 .navmenu .nav-auth-actions .nav-signup,
 .navmenu .nav-auth-actions .nav-signup:focus {
   color: #ffffff;
-  background: #55c7c6;
-  border-radius: 999px;
-  padding: 13px 18px;
 }
 
 .navmenu .nav-auth-actions .nav-login:hover {
@@ -225,8 +222,7 @@ h6 {
 }
 
 .navmenu .nav-auth-actions .nav-signup:hover {
-  color: #ffffff;
-  background: #43b9b8;
+  color: #55c7c6;
 }
 
 @media (max-width: 1200px) {
@@ -499,10 +495,6 @@ h6 {
     padding: 12px 0;
   }
 
-  .navmenu .nav-auth-actions .nav-signup,
-  .navmenu .nav-auth-actions .nav-signup:focus {
-    padding: 13px 18px;
-  }
 
   .navmenu .nav-auth-actions a i,
   .navmenu .nav-auth-actions a:focus i {
