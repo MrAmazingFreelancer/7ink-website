@@ -887,20 +887,36 @@ section,
 /*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
+.about-layout {
+  isolation: isolate;
+}
+
+.about-media-col,
+.about-copy-col {
+  position: relative;
+  z-index: 1;
+}
+
 .about .content h3 {
   font-size: 1.75rem;
   font-weight: 700;
 }
 
+.about .content {
+  padding-left: clamp(0px, 2vw, 28px);
+}
+
 .about-video-frame {
   position: relative;
   overflow: hidden;
+  width: min(100%, 620px);
+  margin-inline: auto;
   border-radius: 26px;
   border: 1px solid color-mix(in srgb, var(--accent-color), transparent 65%);
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
     color-mix(in srgb, var(--surface-color), #000 16%);
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
   aspect-ratio: 16 / 9;
 }
 
@@ -943,6 +959,16 @@ section,
 
 .about .content p:last-child {
   margin-bottom: 0;
+}
+
+@media (max-width: 991px) {
+  .about .content {
+    padding-left: 0;
+  }
+
+  .about-video-frame {
+    width: 100%;
+  }
 }
 
 /*--------------------------------------------------------------
