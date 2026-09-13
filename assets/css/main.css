@@ -191,6 +191,44 @@ h6 {
   line-height: 0px;
 }
 
+.nav-auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navmenu .nav-auth-actions a,
+.navmenu .nav-auth-actions a:focus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.navmenu .nav-auth-actions .nav-login,
+.navmenu .nav-auth-actions .nav-login:focus {
+  color: #ffffff;
+}
+
+.navmenu .nav-auth-actions .nav-signup,
+.navmenu .nav-auth-actions .nav-signup:focus {
+  color: #ffffff;
+  background: #55c7c6;
+  border-radius: 999px;
+  padding: 13px 18px;
+}
+
+.navmenu .nav-auth-actions .nav-login:hover {
+  color: #55c7c6;
+}
+
+.navmenu .nav-auth-actions .nav-signup:hover {
+  color: #ffffff;
+  background: #43b9b8;
+}
+
 @media (max-width: 1200px) {
   .header .logo {
     order: 1;
@@ -445,6 +483,35 @@ h6 {
 
   .mobile-nav-active .navmenu>ul {
     display: block;
+  }
+
+  .nav-auth-actions {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 20px 12px;
+  }
+
+  .navmenu .nav-auth-actions a,
+  .navmenu .nav-auth-actions a:focus {
+    width: fit-content;
+    padding: 12px 0;
+  }
+
+  .navmenu .nav-auth-actions .nav-signup,
+  .navmenu .nav-auth-actions .nav-signup:focus {
+    padding: 13px 18px;
+  }
+
+  .navmenu .nav-auth-actions a i,
+  .navmenu .nav-auth-actions a:focus i {
+    width: auto;
+    height: auto;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    color: inherit;
+    transform: none;
   }
 }
 
