@@ -2755,6 +2755,24 @@ section,
 }
 
 
+
+.local-blog-source-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 24px;
+}
+
+.local-blog-source-tags span {
+  border: 1px solid color-mix(in srgb, var(--accent-color), transparent 62%);
+  border-radius: 999px;
+  color: var(--accent-color);
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 6px 10px;
+  text-transform: capitalize;
+}
+
 .local-blog-content h3 {
   margin-top: 28px;
 }
