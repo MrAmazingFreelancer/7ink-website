@@ -2817,7 +2817,7 @@ section,
 # 7Ink Blog Library Page
 --------------------------------------------------------------*/
 .blog-page .blog-page-hero {
-  padding: 150px 0 95px;
+  padding: 132px 0 76px;
   text-align: center;
   background:
     radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent-color), transparent 72%), transparent 38%),
@@ -2825,7 +2825,7 @@ section,
 }
 
 .blog-page-hero .container {
-  max-width: 980px;
+  max-width: 900px;
 }
 
 .blog-page-hero .blog-eyebrow {
@@ -2835,27 +2835,30 @@ section,
   border: 1px solid color-mix(in srgb, var(--accent-color), transparent 45%);
   border-radius: 999px;
   color: var(--accent-color);
-  font: 700 0.78rem var(--nav-font);
-  letter-spacing: 0.16em;
-  margin-bottom: 22px;
-  padding: 9px 15px;
+  font: 700 0.72rem var(--nav-font);
+  letter-spacing: 0.15em;
+  margin-bottom: 18px;
+  padding: 7px 14px;
   text-transform: uppercase;
 }
 
 .blog-page-hero h1 {
-  font-size: clamp(2.6rem, 5.8vw, 4.9rem);
-  line-height: 0.95;
-  margin-bottom: 18px;
+  font-size: clamp(2.55rem, 5.2vw, 4.35rem);
+  line-height: 1;
+  margin-bottom: 16px;
 }
 
 .blog-page-hero p {
   color: color-mix(in srgb, var(--contrast-color), transparent 22%);
-  font-size: clamp(1.05rem, 2vw, 1.3rem);
-  line-height: 1.7;
-  margin: 0 auto 24px;
-  max-width: 820px;
+  font-size: clamp(0.98rem, 1.55vw, 1.14rem);
+  line-height: 1.55;
+  margin: 0 auto 20px;
+  max-width: 760px;
 }
 
+.blog-page-hero .breadcrumbs ol {
+  font-size: 0.94rem;
+}
 .blog-page-library {
   background:
     radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--accent-color), transparent 90%), transparent 26%),
