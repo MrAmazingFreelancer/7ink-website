@@ -112,19 +112,19 @@
         </div>
         <div class="blog-filters" data-aos="fade-up" data-aos-delay="100">
           <div class="filter-inner">
-              <button class="filter-btn active" type="button" data-blog-filter="all">All <span class="filter-count">57</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="dmca-and-takedowns">DMCA &amp; Takedowns <span class="filter-count">25</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="leak-prevention">Leak Prevention <span class="filter-count">15</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="platform-guides">Platform Guides <span class="filter-count">12</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="privacy-and-anonymity">Privacy &amp; Anonymity <span class="filter-count">9</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="copyright-and-legal">Copyright &amp; Legal <span class="filter-count">8</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="creator-business">Creator Business <span class="filter-count">4</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="content-protection">Content Protection <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="dark-web-and-monitoring">Dark Web &amp; Monitoring <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="industry-news">Industry News <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="impersonation-and-identity-theft">Impersonation &amp; Identity Theft <span class="filter-count">3</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="takedowns">Takedowns <span class="filter-count">1</span></button>
-              <button class="filter-btn" type="button" data-blog-filter="creator-tips">Creator Tips <span class="filter-count">1</span></button>
+              <button class="filter-btn active" type="button" data-blog-filter="all" onclick="filterBlogCards('all')">All <span class="filter-count">57</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="dmca-and-takedowns" onclick="filterBlogCards('dmca-and-takedowns')">DMCA &amp; Takedowns <span class="filter-count">25</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="leak-prevention" onclick="filterBlogCards('leak-prevention')">Leak Prevention <span class="filter-count">15</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="platform-guides" onclick="filterBlogCards('platform-guides')">Platform Guides <span class="filter-count">12</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="privacy-and-anonymity" onclick="filterBlogCards('privacy-and-anonymity')">Privacy &amp; Anonymity <span class="filter-count">9</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="copyright-and-legal" onclick="filterBlogCards('copyright-and-legal')">Copyright &amp; Legal <span class="filter-count">8</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="creator-business" onclick="filterBlogCards('creator-business')">Creator Business <span class="filter-count">4</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="content-protection" onclick="filterBlogCards('content-protection')">Content Protection <span class="filter-count">3</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="dark-web-and-monitoring" onclick="filterBlogCards('dark-web-and-monitoring')">Dark Web &amp; Monitoring <span class="filter-count">3</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="industry-news" onclick="filterBlogCards('industry-news')">Industry News <span class="filter-count">3</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="impersonation-and-identity-theft" onclick="filterBlogCards('impersonation-and-identity-theft')">Impersonation &amp; Identity Theft <span class="filter-count">3</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="takedowns" onclick="filterBlogCards('takedowns')">Takedowns <span class="filter-count">1</span></button>
+              <button class="filter-btn" type="button" data-blog-filter="creator-tips" onclick="filterBlogCards('creator-tips')">Creator Tips <span class="filter-count">1</span></button>
           </div>
         </div>
         <div class="resource-grid" id="blog-page-grid" data-aos="fade-up" data-aos-delay="150">
@@ -804,22 +804,27 @@
   <script src="assets/js/chat-widget.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    function filterBlogCards(selected) {
       var filters = document.querySelectorAll('[data-blog-filter]');
       var cards = document.querySelectorAll('[data-blog-filter-item]');
       var grid = document.getElementById('blog-page-grid');
 
-      filters.forEach(function (filter) {
+      filters.forEach(function (button) {
+        button.classList.toggle('active', button.getAttribute('data-blog-filter') === selected);
+      });
+
+      cards.forEach(function (card) {
+        var categories = card.getAttribute('data-categories') || '';
+        card.hidden = selected !== 'all' && !categories.split(' ').includes(selected);
+      });
+
+      if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('[data-blog-filter]').forEach(function (filter) {
         filter.addEventListener('click', function () {
-          var selected = filter.getAttribute('data-blog-filter');
-          filters.forEach(function (button) {
-            button.classList.toggle('active', button === filter);
-          });
-          cards.forEach(function (card) {
-            var categories = card.getAttribute('data-categories') || '';
-            card.hidden = selected !== 'all' && !categories.split(' ').includes(selected);
-          });
-          if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          filterBlogCards(filter.getAttribute('data-blog-filter'));
         });
       });
     });
