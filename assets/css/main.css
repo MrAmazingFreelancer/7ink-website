@@ -2754,6 +2754,30 @@ section,
   padding: 6px 10px;
 }
 
+
+.local-blog-content h3 {
+  margin-top: 28px;
+}
+
+.local-blog-checklist,
+.local-blog-steps {
+  color: color-mix(in srgb, var(--default-color), transparent 18%);
+  margin: 14px 0 24px;
+  padding-left: 1.35rem;
+}
+
+.local-blog-checklist li,
+.local-blog-steps li {
+  margin-bottom: 10px;
+  padding-left: 4px;
+}
+
+.local-blog-checklist li::marker,
+.local-blog-steps li::marker {
+  color: var(--accent-color);
+  font-weight: 800;
+}
+
 .local-blog-content .lead {
   color: var(--heading-color);
   font-size: 1.16rem;
