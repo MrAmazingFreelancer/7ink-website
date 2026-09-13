@@ -2033,6 +2033,11 @@ section,
   color: var(--contrast-color);
 }
 
+.blog-pagination li a.disabled {
+  opacity: 0.38;
+  pointer-events: none;
+}
+
 .blog-pagination li a.active a,
 .blog-pagination li a:hover a {
   color: var(--contrast-color);
