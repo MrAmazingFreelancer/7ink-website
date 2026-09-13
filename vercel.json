@@ -18,6 +18,11 @@
       "permanent": false
     },
     {
+      "source": "/analytics",
+      "destination": "https://7ink-dashboard.vercel.app/analytics",
+      "permanent": false
+    },
+    {
       "source": "/account/:path*",
       "destination": "https://7ink-dashboard.vercel.app/account/:path*",
       "permanent": false
